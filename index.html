@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoTracker — Goal Setting & Tracking Portal</title>
+
+  <!-- Google Fonts: Fraunces (headings) + Plus Jakarta Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===================== LOGIN SCREEN ===================== -->
+  <div id="login-screen" class="screen active">
+    <div class="login-bg">
+      <div class="bg-orb orb1"></div>
+      <div class="bg-orb orb2"></div>
+      <div class="bg-orb orb3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+
+    <div class="login-container">
+      <!-- Brand -->
+      <div class="login-brand">
+        <div class="brand-mark">
+          <svg width="52" height="52" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="22" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="24" cy="24" r="8" fill="var(--accent)"/>
+            <circle cx="24" cy="8"  r="3" fill="var(--accent)" opacity="0.6"/>
+            <circle cx="24" cy="40" r="3" fill="var(--accent)" opacity="0.6"/>
+            <circle cx="8"  cy="24" r="3" fill="var(--accent)" opacity="0.6"/>
+            <circle cx="40" cy="24" r="3" fill="var(--accent)" opacity="0.6"/>
+          </svg>
+        </div>
+        <h1 class="brand-name">GoTracker</h1>
+        <p class="brand-tagline">Goal Setting &amp; Tracking Portal</p>
+      </div>
+
+      <!-- Login Card -->
+      <div class="login-card">
+        <h2>Sign In</h2>
+        <p class="login-subtitle">Select your role to continue</p>
+
+        <!-- Role Selector -->
+        <div class="role-selector">
+          <button class="role-btn active" data-role="employee">
+            <span class="role-icon">👤</span>
+            <span class="role-label">Employee</span>
+          </button>
+          <button class="role-btn" data-role="manager">
+            <span class="role-icon">👔</span>
+            <span class="role-label">Manager</span>
+          </button>
+          <button class="role-btn" data-role="admin">
+            <span class="role-icon">🛡️</span>
+            <span class="role-label">Admin / HR</span>
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="login-username" value="emp1" placeholder="Enter username" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" value="pass123" placeholder="Enter password" />
+        </div>
+
+        <!-- Hint Box -->
+        <div class="login-hint">
+          <strong>Demo Credentials:</strong><br />
+          Employee: emp1 / pass123 &nbsp;|&nbsp;
+          Manager: mgr1 / pass123 &nbsp;|&nbsp;
+          Admin: admin / pass123
+        </div>
+
+        <button class="btn-primary btn-full" id="login-btn">Sign In →</button>
+        <div id="login-error" class="error-msg hidden"></div>
+      </div>
+    </div>
+  </div><!-- /login-screen -->
+
+
+  <!-- ===================== MAIN APP SCREEN ===================== -->
+  <div id="main-screen" class="screen">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" stroke="var(--accent)" stroke-width="2.5"/>
+          <circle cx="24" cy="24" r="8"  fill="var(--accent)"/>
+          <circle cx="24" cy="8"  r="3"  fill="var(--accent)" opacity="0.6"/>
+          <circle cx="24" cy="40" r="3"  fill="var(--accent)" opacity="0.6"/>
+          <circle cx="8"  cy="24" r="3"  fill="var(--accent)" opacity="0.6"/>
+          <circle cx="40" cy="24" r="3"  fill="var(--accent)" opacity="0.6"/>
+        </svg>
+        <span>GoTracker</span>
+      </div>
+
+      <!-- Logged-in user info chip -->
+      <div class="user-chip">
+        <div class="user-avatar" id="sidebar-avatar">E</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebar-name">Employee</div>
+          <div class="user-role" id="sidebar-role">Employee</div>
+        </div>
+      </div>
+
+      <!-- Nav links (populated by app.js based on role) -->
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+
+      <button class="btn-logout" id="logout-btn">← Sign Out</button>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="content-inner" id="content-area">
+        <!-- Views are injected here by views.js -->
+      </div>
+    </main>
+
+  </div><!-- /main-screen -->
+
+</div><!-- /app -->
+
+
+<!-- ===================== MODAL (shared) ===================== -->
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-title">Modal</h3>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body"   id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<!-- Toast notifications container -->
+<div id="toast-container"></div>
+
+
+<!-- ===================== SCRIPTS ===================== -->
+<!-- Load order matters: data → app → views → main -->
+<script src="js/data.js"></script>    <!-- DB, models, helpers -->
+<script src="js/app.js"></script>     <!-- Navigation, modal, toast -->
+<script src="js/views.js"></script>   <!-- HTML rendering per view -->
+<script src="js/main.js"></script>    <!-- Event listeners, login logic -->
+
+</body>
+</html>

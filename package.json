@@ -1,0 +1,12 @@
+{
+  "name": "gotracker-portal",
+  "version": "1.0.0",
+  "description": "GoTracker Goal Setting & Tracking Portal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
